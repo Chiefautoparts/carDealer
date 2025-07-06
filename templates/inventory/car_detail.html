@@ -1,0 +1,165 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}{{ car.year }} {{ car.make }} {{ car.model }} - Auto Sales{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Image Gallery -->
+            <div class="mb-4">
+                {% if images %}
+                <div id="carCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image in images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image }}" class="d-block w-100" alt="Car Image" style="height: 400px; object-fit: cover;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if images|length > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 400px;">
+                    <i class="fas fa-car fa-5x text-muted"></i>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Vehicle Details -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Vehicle Details</h5>
+                    <table class="table table-striped">
+                        <tr>
+                            <td><strong>Make:</strong></td>
+                            <td>{{ car.make }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Model:</strong></td>
+                            <td>{{ car.model }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Year:</strong></td>
+                            <td>{{ car.year }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mileage:</strong></td>
+                            <td>{{ car.mileage|floatformat:0 }} miles</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Condition:</strong></td>
+                            <td>{{ car.get_condition_display }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VIN:</strong></td>
+                            <td>{{ car.vin }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h5>Specifications</h5>
+                    <table class="table table-striped">
+                        <tr>
+                            <td><strong>Fuel Type:</strong></td>
+                            <td>{{ car.get_fuel_type_display }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Transmission:</strong></td>
+                            <td>{{ car.get_transmission_display }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exterior Color:</strong></td>
+                            <td>{{ car.exterior_color }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interior Color:</strong></td>
+                            <td>{{ car.interior_color }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Description -->
+            {% if car.description %}
+            <div class="mt-4">
+                <h5>Description</h5>
+                <p>{{ car.description|linebreaks }}</p>
+            </div>
+            {% endif %}
+            
+            <!-- Features -->
+            {% if features %}
+            <div class="mt-4">
+                <h5>Features</h5>
+                <div class="row">
+                    {% for feature in features %}
+                    <div class="col-md-6">
+                        <i class="fas fa-check text-success"></i> {{ feature }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="col-md-4">
+            <!-- Price & Contact -->
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center price-tag mb-3">${{ car.price|floatformat:0 }}</h3>
+                    <div class="d-grid gap-2">
+                        <a href="tel:555-123-4567" class="btn btn-success btn-lg">
+                            <i class="fas fa-phone"></i> Call Now
+                        </a>
+                        <a href="mailto:info@autosales.com?subject=Inquiry about {{ car.year }} {{ car.make }} {{ car.model }}" 
+                           class="btn btn-primary">
+                            <i class="fas fa-envelope"></i> Email Us
+                        </a>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar"></i> Listed {{ car.created_at|date:"M d, Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h6>Quick Stats</h6>
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="border-end">
+                                <h4>{{ car.year }}</h4>
+                                <small class="text-muted">Year</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h4>{{ car.mileage|floatformat:0 }}</h4>
+                            <small class="text-muted">Miles</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Back to Inventory -->
+    <div class="mt-4">
+        <a href="{% url 'inventory:inventory' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Inventory
+        </a>
+    </div>
+</div>
+{% endblock %}
+                            

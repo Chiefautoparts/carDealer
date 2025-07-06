@@ -1,0 +1,138 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}Inventory - Auto Sales
+
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="filter-sidebar">
+                <h5>Filter Cars</h5>
+                <form method="get">
+                    <div class="mb-3">
+                        <label for="search" class="form-label">Search</label>
+                        <input type="text" class="form-control" name="search" id="search" 
+                               value="{{ current_filters.search }}" placeholder="Make, model, year...">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="make" class="form-label">Make</label>
+                        <select class="form-select" name="make" id="make">
+                            <option value="">All Makes</option>
+                            {% for make in available_makes %}
+                            <option value="{{ make }}" {% if current_filters.make == make %}selected{% endif %}>
+                                {{ make }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Price Range</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" class="form-control" name="min_price" 
+                                       value="{{ current_filters.min_price }}" placeholder="Min">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control" name="max_price" 
+                                       value="{{ current_filters.max_price }}" placeholder="Max">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Year Range</label>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" class="form-control" name="min_year" 
+                                       value="{{ current_filters.min_year }}" placeholder="Min">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control" name="max_year" 
+                                       value="{{ current_filters.max_year }}" placeholder="Max">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                    <a href="{% url 'inventory:inventory' %}" class="btn btn-outline-secondary w-100 mt-2">Clear Filters</a>
+                </form>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Our Inventory</h2>
+                <span class="text-muted">{{ page_obj.paginator.count }} cars found</span>
+            </div>
+            
+            <div class="row">
+                {% for car in page_obj %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card car-card">
+                        {% if car.main_image %}
+                        <img src="{{ car.main_image.url }}" class="card-img-top car-image" alt="{{ car }}">
+                        {% else %}
+                        <div class="card-img-top car-image bg-light d-flex align-items-center justify-content-center">
+                            <i class="fas fa-car fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ car.year }} {{ car.make }} {{ car.model }}</h5>
+                            <p class="card-text">
+                                <i class="fas fa-tachometer-alt"></i> {{ car.mileage|floatformat:0 }} miles<br>
+                                <i class="fas fa-gas-pump"></i> {{ car.get_fuel_type_display }}<br>
+                                <i class="fas fa-cogs"></i> {{ car.get_transmission_display }}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price-tag">${{ car.price|floatformat:0 }}</span>
+                                <a href="{% url 'inventory:car_detail' car.pk %}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4>No cars found</h4>
+                        <p class="text-muted">Try adjusting your filters or search terms.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if page_obj.has_other_pages %}
+            <nav aria-label="Page Navigation">
+            	<ul class="pagination justify-content-center">
+            		{% if page_obj.has_previous %}
+            		<li class="page-item">
+            			<a class="page-link" href="?page={{ page.obj.previous_page_number }}&{{ current_filters.urlencode }}">Previous</a>
+            		</li>
+            		{% endif %}
+
+            		{% for num in page_obj.paginator.page_range %}
+            		{% if page_obj.number == num %}
+            		<li class="page-item active">
+            			<span class="page-link">{{ num }}</span>
+            		</li>
+            		{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            		<li class="page-item">
+            			<a class="page-link" href="?page={{ num }}&{{ current_filter.urlencode }}">{{ num j</a>
+            		</li>
+            		{% endif %}
+            		{% endor %}
+
+            		{% if page_obj.has_next %}
+            		<li class="page-item">
+            			<a class="page-link" href="?page={{ page_obj.next_page_nuber }}&{{ current_filters.urlencode }}">Next</a>
+            		</li>
+            		{% endif %}
+            	</ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

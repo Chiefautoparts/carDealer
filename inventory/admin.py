@@ -33,4 +33,24 @@ class CarAdmin(admin.ModelAdmin):
 	def image_preview(self, obj):
 		if obj.main_image:
 			return format_html('<img src="{}" style="width: 50px; height:50px; object-fit: cover;" />', obj.main_image.url)
-			
+		return "No Image"
+	image_preview.short_description = "Preview"
+
+	actions = ['mark_as_sold', 'mark_as_available', 'mark_as_featured']
+
+	def mark_as_sold(self, request, queryset):
+		queryset.update(is_available=False)
+		self.message_user(request, f"{queryset.account()} cars marked as sold.")
+	mark_as_sold.short_description = "Mark selected cars as sold"
+
+	def maek_as_available(self, request, queryset):
+		queryset.update(is_available=True)
+		self.message_user(request, f"{queryset.count()} cars marked as available")
+	mark_as_available.short_description = "Mark selecte cars as available"
+
+	def mark_as_featured(self, request, queryset):
+		queryset.update(is_featured=True)
+		self.message_user(request, f"{queryset.count()} cars marked as featured.")
+	mark_as_featured.short_description = "Mark selected cars as featured"
+
+
