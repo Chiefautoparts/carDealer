@@ -12,7 +12,7 @@ def home(request):
 		'featured_cars': featured_cars,
 		'recent_cars': recent_cars,
 	}
-	return render(request, 'cars/home.html', context)
+	return render(request, 'inventory/home.html', context)
 
 def inventory(request):
 	"""Show all available cars with filtering"""
@@ -48,7 +48,7 @@ def inventory(request):
 		'available_makes': available_makes,
 		'current_filters': request.GET,
 	}
-	return render(request, 'cars/inventory.html', sontext)
+	return render(request, 'inventory/inventory.html', context)
 
 def car_detail(request, pk):
 	"""Show detailed view of a single car"""
@@ -69,6 +69,5 @@ def car_detail(request, pk):
 		'images': images,
 		'features': features,
 	}
-	return render(request, 'cars/car_detail.html', context)
+	return render(request, 'inventory/car_detail.html', context)
 
-	

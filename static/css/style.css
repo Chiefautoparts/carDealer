@@ -1,0 +1,38 @@
+.car-card {
+	transition: transform 0.3s ease;
+	border: none;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.car-card:hover {
+	transfomr: translateY(-5px);
+	box-shadow: 0 4px 20-x rgba(0,0,0,0.150);
+}
+
+
+.car-image {
+    height: 200px;
+    object-fit: cover;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+}
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.price-tag {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #28a745;
+}
+.filter-sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}

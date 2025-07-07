@@ -43,7 +43,7 @@ class CarAdmin(admin.ModelAdmin):
 		self.message_user(request, f"{queryset.account()} cars marked as sold.")
 	mark_as_sold.short_description = "Mark selected cars as sold"
 
-	def maek_as_available(self, request, queryset):
+	def mark_as_available(self, request, queryset):
 		queryset.update(is_available=True)
 		self.message_user(request, f"{queryset.count()} cars marked as available")
 	mark_as_available.short_description = "Mark selecte cars as available"
