@@ -130,3 +130,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # For Image processing
 INSTALLED_APPS += ['PIL']
 
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@gmail.com'
+EMAIL_HOST_PASSWORD = 'your-app-password'
+DEFAULT_FROM_EMAIL = 'Auto Sales <your-email@gmail.com>'
+
+# Alternative for dev/testing (printing emails to console)
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# For production with other email providers:
+# EMAIL_HOST = 'smtp.yourdomain.com'
+# EMAIL_HOST_USER = 'noreply@yourdomain.com'
+# EMAIL_HOST_PASSWORD = 'your-password'
+

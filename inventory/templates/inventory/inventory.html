@@ -1,6 +1,6 @@
 {% extends 'inventory/base.html' %}
 
-{% block title %}Inventory - Auto Sales
+{% block title %}Inventory - Auto Sales {% endblock %}
 
 
 {% block content %}
@@ -122,7 +122,7 @@
             			<a class="page-link" href="?page={{ num }}&{{ current_filter.urlencode }}">{{ num j</a>
             		</li>
             		{% endif %}
-            		{% endor %}
+            		{% endfor %}
 
             		{% if page_obj.has_next %}
             		<li class="page-item">
