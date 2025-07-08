@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Car
+from .models import Car, Contact
 
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
@@ -54,3 +54,39 @@ class CarAdmin(admin.ModelAdmin):
 	mark_as_featured.short_description = "Mark selected cars as featured"
 
 
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+	list_display = ['name', 'email', 'phone', 'subject_display', 'created_at', 'is_resolved']
+	list_filter = ['subject', 'is_resolved', 'created_at']
+	search_fields = ['name', 'email', 'phone']
+	liste_editable = ['is_resolved']
+	readonly_fields = ['created_at']
+	date_hierarchy = 'created_at'
+
+	fieldsets = (
+		('Contact Information', {
+			'fields': ('name', 'email','phone')
+			}),
+		('Inquiry Details', {
+			'fields': ('subject', 'message')
+			}),
+		('Status', {
+			'fields': ('is_resolved', 'created_at')
+			}),
+	)
+
+	def subject_display(self, obj):
+		return obj.get_subject_display()
+	subject_display.short_description = 'Subject'
+
+	actions = ['mark_as_resolved', 'mark_as_unresolved']
+
+	def mark_as_resolved(self, request, queryset):
+		queryset.update(is_resolved=True)
+		self.message_user(request, f"{queryset.count()} inquiries marked as resolved")
+	mark_as_resolved.short_description = "Mark selected inquiries as resolved"
+
+	def mark_as_unresolved(self, request, queryset):
+		queryset.update(is_resolved=False)
+		self.message_user(request, f"{queryset.count()} inquiries marked as unresolved.")
+	mark_as_unresolved.short_description = "Mark selected inquiries as unresolved"

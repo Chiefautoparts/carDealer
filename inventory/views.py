@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Car
+from .models import Car, Contact 
 from .forms import ContactForm
 
 def home(request):
@@ -123,23 +123,13 @@ Subject: {subject_display}
 Message:
 {message}
 
----
 This message was sent from the Auto Sales website contact form.
-            """
-
-             try:
-                # Send email to department
-                send_mail(
-                    subject=email_subject,
-                    message=email_message,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[department_email],
-                    fail_silently=False,
-                )
-                
-                # Send confirmation email to customer
-                confirmation_subject = "Thank you for contacting Auto Sales"
-                confirmation_message = f"""
+"""
+	try:
+		send_mail(subject=email_subject,message=email_message,from_email=settings.DEFAULT_FROM_EMAIL,recipient_list=[department_email],fail_silently=False,
+            		)
+		confirmation_subject = "Thank you for contacting Auto Sales"
+		confirmation_message = f"""
 Dear {name},
 
 Thank you for contacting Auto Sales. We have received your message regarding "{subject_display}" and will get back to you within 24 hours.
@@ -153,13 +143,13 @@ Auto Sales Team
 This is an automated confirmation email.
                 """
                 
-                send_mail(
-                    subject=confirmation_subject,
-                    message=confirmation_message,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[email],
-                    fail_silently=True,  # Don't fail if customer email fails
-                )
+send_mail(
+    subject=confirmation_subject,
+    message=confirmation_message,
+    from_email=settings.DEFAULT_FROM_EMAIL,
+    recipient_list=[email],
+    fail_silently=True,  # Don't fail if customer email fails
+)
                 
                 messages.success(request, 'Thank you for your message! We will contact you within 24 hours.')
                 form = ContactForm()  # Reset form
@@ -171,4 +161,3 @@ This is an automated confirmation email.
 
     return render(request, 'inventory/contact.html', {'form': form})
 
-    
