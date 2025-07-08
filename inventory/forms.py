@@ -1,16 +1,16 @@
 from django import forms
 
 class ContactForm(forms.Form):
-	SUBJECT_CHOICES = [
-		('general', 'General Inquiry'),
-		('sales', 'Sales - Vehicle Purchase'),
-		('service', 'Service & Maintenance'),
-		('financing', 'Financing & Loans'),
-		('trade_in', 'Trade-In Valuation'),
-		('parts', 'Parts & Accessories'),
-	]
-
-	name = forms.CharField(
+    SUBJECT_CHOICES = [
+        ('general', 'General Inquiry'),
+        ('sales', 'Sales - Vehicle Purchase'),
+        ('service', 'Service & Maintenance'),
+        ('financing', 'Financing & Loans'),
+        ('trade_in', 'Trade-In Valuation'),
+        ('parts', 'Parts & Accessories'),
+    ]
+    
+    name = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
@@ -32,7 +32,8 @@ class ContactForm(forms.Form):
             'placeholder': '(555) 123-4567'
         })
     )
-	 subject = forms.ChoiceField(
+    
+    subject = forms.ChoiceField(
         choices=SUBJECT_CHOICES,
         widget=forms.Select(attrs={
             'class': 'form-select'
@@ -45,12 +46,13 @@ class ContactForm(forms.Form):
             'rows': 5,
             'placeholder': 'Please describe your inquiry or question...'
         })
-        )
-
+    )
+    
     def clean_phone(self):
-    	phone = self.cleaned_data['phone']
-    	import re 
-    	phone_digits = re.sub(r'\D','', phone)
-    	if len(phone_digits) < 10:
-    		raise forms.ValidationError("Please wnter a valid phone number")
-    	return phone
+        phone = self.cleaned_data['phone']
+        # Remove non-numeric characters for validation
+        import re
+        phone_digits = re.sub(r'\D', '', phone)
+        if len(phone_digits) < 10:
+            raise forms.ValidationError("Please enter a valid phone number with at least 10 digits.")
+        return phone
