@@ -1,0 +1,81 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+
+<section class="hero-section">
+	<div class="container text-center">
+		<h1 class="display-4 mb-4">Find perfect Carr</h1>
+		<p class="lead mb-4">Quality pre-owned vehicles at unbeatable orices</p>
+		<a href="{% url 'inventory:inventory' %}" class="btn btn-success btn-lg">
+			<i class="fas fa-search"></i>Browse Inventory
+		</a>
+	</div>
+</section>
+
+{% if featured_cars %}
+<section class="py-5">
+	<div class="container">
+		<h2 class="text-center mb-5">Featured Vehicles</h2>
+	<div class="row">
+		{% for car in featured_cars %}
+		<div class="col-md-4 mb-4">
+			<div class="card car-card">
+				{% if car.main_image %}
+				<img src="{{ car.main_image.url }}" class="card-img-top car-image" alt="{{ car }}">
+				{% else %}
+				<div class="card-img-top car-image bg-light d-flex align-items-center justify-content-center">
+					<i class="fas fa-car fa-3x text-muted"></i>
+				</div>
+				{% endif %}
+				<div class="card-body">
+					<h5 class="card-title">{{ car.year }} {{ car.make }} {{ car.model }}</h5>
+					<p class="card-text">
+						<small class="text-muted">{{ car.mileage|floatformat:0 }} miles</small>
+					</p>
+					<div class="d-flex justify-content-between align-items-center">
+						<span class="price-tag">${{ car.price|floatformat:0 }}</span>
+						<a href="{% url 'inventory:car_detail' car.pk %}" class="btn btn-primary">View Details</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	</div>
+</section>
+{% endif %}
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Recent Additions</h2>
+        <div class="row">
+            {% for car in recent_cars %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card car-card">
+                    {% if car.main_image %}
+                    <img src="{{ car.main_image.url }}" class="card-img-top car-image" alt="{{ car }}">
+                    {% else %}
+                    <div class="card-img-top car-image bg-light d-flex align-items-center justify-content-center">
+                        <i class="fas fa-car fa-2x text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h6 class="card-title">{{ car.year }} {{ car.make }} {{ car.model }}</h6>
+                        <p class="card-text">
+                            <small class="text-muted">{{ car.mileage|floatformat:0 }} miles</small>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="price-tag">${{ car.price|floatformat:0 }}</span>
+                            <a href="{% url 'inventory:car_detail' car.pk %}" class="btn btn-sm btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{% url 'inventory:inventory' %}" class="btn btn-outline-primary">View All Inventory</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

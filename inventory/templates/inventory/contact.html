@@ -1,0 +1,229 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %}Contact Us - Auto Sales{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+	<div class="row">
+		<div class="col-md-8">
+			<h2>Contact Us</h2>
+			<p class="lead">Get in touch with our team. We're here to help with all you automotive needs</p>
+
+			{% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post" class="bg-light p-4 rounded">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.name.id_for_label }}" class="form-label">Full Name *</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="text-danger">{{ form.name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">Email Address *</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="text-danger">{{ form.email.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.phone.id_for_label }}" class="form-label">Phone Number *</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                            <div class="text-danger">{{ form.phone.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.subject.id_for_label }}" class="form-label">Subject *</label>
+                        {{ form.subject }}
+                        {% if form.subject.errors %}
+                            <div class="text-danger">{{ form.subject.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="{{ form.message.id_for_label }}" class="form-label">Message *</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                        <div class="text-danger">{{ form.message.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+        	<div class="card">
+        		<div class="card-body">
+        			<h5 class="card-title">Get in Touch</h5>
+        			<div class="mb-3">
+        				<i class="fas fa-phone text-primary"></i>
+        				<strong>Phone:</strong><br>
+        				<a href="tel:555-123-4567" class="text-decoration-none">(555) 123-4567</a>
+        			</div>
+        			<div class="mb-3">
+        				<i class="fas fa-envelope text-primary"></i>
+        				<strong>Email:</strong><br>
+        				<a href="mailto:info@autosales.com" class="text-decoration-none">info@autosales.com</a>
+        			</div>
+
+        			<div class="mb-3">
+        				<i class="fas fa-map-marker-alt text-primary"></i>
+        				<strong>Address:</strong><br>
+        				123 Auto Street <br>
+        				car city, CC 12345
+        			</div>
+
+        			<div class="mb-3">
+        				<i class="fas fa-clock text-primary"></i>
+        				<strong>Business Hours:</strong><br>
+        				Mon-Fri: 9:00 AM - 7:00 PM <br>
+        				Saturday: 9:00 AM - 6:00 PM <br>
+        				Sunday: 12:00 Pm - 5:00 PM 
+        			</div>
+        		</div>
+        	</div>
+        	     <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Our Departments</h5>
+                    <div class="department-info">
+                        <div class="mb-2">
+                            <strong>Sales Team</strong><br>
+                            <small class="text-muted">Vehicle purchases, inventory questions</small>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <strong>Service Department</strong><br>
+                            <small class="text-muted">Maintenance, repairs, warranties</small>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <strong>Financing</strong><br>
+                            <small class="text-muted">Loans, payment options, credit assistance</small>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <strong>Trade-In</strong><br>
+                            <small class="text-muted">Vehicle valuations, trade assessments</small>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <strong>Parts & Accessories</strong><br>
+                            <small class="text-muted">Genuine parts, aftermarket accessories</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Contact for Urgent Matters -->
+            <div class="card mt-3">
+                <div class="card-body text-center">
+                    <h6 class="card-title">Need Immediate Help?</h6>
+                    <p class="card-text">For urgent matters, call us directly.</p>
+                    <a href="tel:555-123-4567" class="btn btn-success">
+                        <i class="fas fa-phone"></i> Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FAQ Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3>Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faq1">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1">
+                            What financing options do you offer?
+                        </button>
+                    </h2>
+                    <div id="faqCollapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            We offer competitive financing options including traditional auto loans, lease-to-own programs, and special financing for customers with all credit types. Our financing team works with multiple lenders to find the best rates and terms for your situation.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faq2">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2">
+                            Do you accept trade-ins?
+                        </button>
+                    </h2>
+                    <div id="faqCollapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes! We accept trade-ins regardless of make, model, or condition. Our experienced team will provide you with a fair market value assessment. You can use your trade-in value as a down payment toward your next vehicle.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faq3">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3">
+                            What warranty do you provide?
+                        </button>
+                    </h2>
+                    <div id="faqCollapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            All our vehicles come with a comprehensive inspection and limited warranty. Extended warranty options are available for additional peace of mind. Our service department also handles all warranty work with certified technicians.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="faq4">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4">
+                            Can I schedule a test drive?
+                        </button>
+                    </h2>
+                    <div id="faqCollapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Absolutely! We encourage test drives for all our vehicles. You can schedule a test drive by calling us, using our contact form, or visiting our showroom. We'll have the vehicle ready and our sales team available to assist you.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	// Auto-hide success messages after 5 seconds
+	document.addEventListener('DOMContentLoaded', function() {
+		const alerts = document.querySelectorAll('.alert-success');
+		alerts.forEach(function(alert){
+			setTimeout(function() {
+				if (alert && alert.partentNode){
+					alert.classList.remove('show');
+					setTimeout(function(){
+						if (alert.parentNode){
+							alert.remove();
+						}
+					}, 150);
+				}
+			}, 5000);
+		});
+	});
+</script>

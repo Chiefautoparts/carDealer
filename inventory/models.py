@@ -76,4 +76,29 @@ class Car(models.Model):
 					img.thumbnail((1200,800), Image.Resampling.LANCZOS)
 					img.save(image_path, optimize=True, quality=85)
 
-			
+
+class Contact(models.Model):
+	SUBJECT_CHOICES = [
+		('general', 'General Inquiry'),
+		('sales', 'Sales - Vehicle Purchase'),
+		('service', 'Service & Maintenance'),
+		('financing', 'Financing & Loans'),
+		('trade_in', 'Trade-In Valuation'),
+		('parts', 'Parts & Accessories'),
+	]
+
+	name = models.CharField(max_length=100)
+	email = models.EmailField()
+	phone = models.CharField(max_length=20)
+	subject = models.CharField(max_length=20, choices=SUBJECT_CHOICES)
+	message = models.TextField()
+	created_at = models.DateTimeField(auto_now_add=True)
+	is_resolved = models.BooleanField(default=False)
+
+	class Meta:
+		ordering = ['-created_at']
+		verbose_name = 'Contact Inquiry'
+		verbose_name_plural = 'Contact Inquiries'
+
+	def __str__(self):
+		return f"{self.name} - {self.get_subject_display()}"
